@@ -4,7 +4,11 @@
 using namespace sf;
 using namespace std;
 
+<<<<<<< HEAD
 int screen = 0;
+=======
+
+>>>>>>> f79e86aa4ae67629051f170bdafe65b49f510469
 
 const Keyboard::Key controls[5] = {
 	Keyboard::W,
@@ -24,6 +28,7 @@ bool server = false;
 bool changeMode = false;
 bool mp = false;
 
+<<<<<<< HEAD
 float by;
 float old_pos;
 
@@ -32,6 +37,10 @@ Text text;
 Text player_type;
 Text HowToPlay;
 
+=======
+Font font;
+Text text;
+>>>>>>> f79e86aa4ae67629051f170bdafe65b49f510469
 
 int p1_score = 0;
 int p2_score = 0;
@@ -60,6 +69,7 @@ void Load() {
 
 	ball.setPosition(Vector2(gameWidth/2.0f, gameHeight/2.0f));
 
+<<<<<<< HEAD
 	font.loadFromFile("res/fonts/RobotoMono-VariableFont_wght.ttf");
 	text.setFont(font);
 	text.setCharacterSize(24);
@@ -67,6 +77,15 @@ void Load() {
 	text.setPosition({ (gameWidth * .5f) - (text.getLocalBounds().width * .5f), 0 });
 
 
+=======
+	// Load font-face from res dir
+	font.loadFromFile("res/fonts/RobotoMono-VariableFont_wght.ttf");
+	// Set text element to use font
+	text.setFont(font);
+	// set the character size to 24 pixels
+	text.setCharacterSize(24);
+
+>>>>>>> f79e86aa4ae67629051f170bdafe65b49f510469
 }
 
 void Reset(bool scorer){
@@ -87,6 +106,13 @@ void Reset(bool scorer){
 	}
 
 
+<<<<<<< HEAD
+=======
+
+
+	text.setPosition({ (gameWidth * .5f) - (text.getLocalBounds().width * .5f), 0 });
+
+>>>>>>> f79e86aa4ae67629051f170bdafe65b49f510469
 	text.setString("Score: " + to_string(p1_score) + " - " + to_string(p2_score));
 
 	if (changeMode) {
@@ -96,6 +122,7 @@ void Reset(bool scorer){
 
 	server = !server;
 
+<<<<<<< HEAD
 }
 
 void Title(RenderWindow& window)
@@ -148,6 +175,8 @@ void Title(RenderWindow& window)
 		screen = 1;
 	}
 
+=======
+>>>>>>> f79e86aa4ae67629051f170bdafe65b49f510469
 }
 
 void Update(RenderWindow &window) {
@@ -157,8 +186,12 @@ void Update(RenderWindow &window) {
 	float dt = clock.restart().asSeconds();
 	Event event;
 	const float bx = ball.getPosition().x;
+<<<<<<< HEAD
 	old_pos = by;
 	by = ball.getPosition().y;
+=======
+	const float by = ball.getPosition().y;
+>>>>>>> f79e86aa4ae67629051f170bdafe65b49f510469
 	
 	while (window.pollEvent(event))
 	{
@@ -186,10 +219,43 @@ void Update(RenderWindow &window) {
 	else if (bx > gameWidth) {
 		Reset(1);
 	}
+<<<<<<< HEAD
 
 
 	int direction = 0;
 	if (Keyboard::isKeyPressed(controls[0]) && paddles[0].getPosition().y - (paddleSize.y * 0.5) > 0) {
+=======
+	else if (
+	//ball is inline or behind paddle
+	bx < paddleSize.x && 
+	//AND ball is below top edge of paddle
+	by > paddles[0].getPosition().y - (paddleSize.y * 0.5) &&
+	//AND ball is above bottom edge of paddle
+	by < paddles[0].getPosition().y + (paddleSize.y * 0.5)
+	) {
+
+		ballVelocity.x *= -1.1f;
+		ballVelocity.y *= 1.1f;
+		ball.move(Vector2(10.0f, 0.0f));
+	}
+
+	else if (
+		bx > gameWidth - paddleSize.x - 20 &&
+
+		by > paddles[1].getPosition().y - (paddleSize.y * 0.5) &&
+
+		by < paddles[1].getPosition().y + (paddleSize.y * 0.5)
+		) {
+
+		ballVelocity.x *= -1.1f;
+		ballVelocity.y *= 1.1f;
+		ball.move(Vector2(-10.0f, 0.0f));
+	}
+
+
+	float direction = 0.0f;
+	if (Keyboard::isKeyPressed(controls[0])) {
+>>>>>>> f79e86aa4ae67629051f170bdafe65b49f510469
 		direction--;
 	}
 	if (Keyboard::isKeyPressed(controls[1]) && paddles[0].getPosition().y + (paddleSize.y * 0.5) < gameHeight) {
@@ -197,6 +263,7 @@ void Update(RenderWindow &window) {
 	}
 	paddles[0].move(Vector2(0.f, direction * paddleSpeed * dt));
 
+<<<<<<< HEAD
 	int direction2 = 0;
 	if (mp) {
 
@@ -205,10 +272,21 @@ void Update(RenderWindow &window) {
 		}
 		if (Keyboard::isKeyPressed(controls[3]) && paddles[1].getPosition().y + (paddleSize.y * 0.5) < gameHeight) {
 			direction2++;
+=======
+	direction = 0.0f;
+	if (mp) {
+
+		if (Keyboard::isKeyPressed(controls[2])) {
+			direction--;
+		}
+		if (Keyboard::isKeyPressed(controls[3])) {
+			direction++;
+>>>>>>> f79e86aa4ae67629051f170bdafe65b49f510469
 		}
 	}
 	else{
 
+<<<<<<< HEAD
 		if (by < paddles[1].getPosition().y && paddles[1].getPosition().y - (paddleSize.y * 0.5) > 0)
 		{
 			direction2--;
@@ -282,6 +360,20 @@ void Update(RenderWindow &window) {
 	}
 
 	paddles[1].move(Vector2(0.f, direction2 * paddleSpeed * dt));
+=======
+		if (by < paddles[1].getPosition().y)
+		{
+			direction--;
+		}
+
+		else if (by > paddles[1].getPosition().y)
+		{
+			direction++;
+		}
+	}
+
+	paddles[1].move(Vector2(0.f, direction * paddleSpeed * dt));
+>>>>>>> f79e86aa4ae67629051f170bdafe65b49f510469
 
 	ball.move(ballVelocity * dt);
 
@@ -292,6 +384,7 @@ void Update(RenderWindow &window) {
 }
 
 void Render(RenderWindow &window) {
+<<<<<<< HEAD
 
 	switch (screen) {
 
@@ -307,6 +400,12 @@ void Render(RenderWindow &window) {
 		window.draw(text);
 		break;
 	}
+=======
+	window.draw(paddles[0]);
+	window.draw(paddles[1]);
+	window.draw(ball);
+	window.draw(text);
+>>>>>>> f79e86aa4ae67629051f170bdafe65b49f510469
 }
 
 int main() {
