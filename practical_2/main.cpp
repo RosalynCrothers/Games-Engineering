@@ -160,8 +160,7 @@ void Title(RenderWindow& window)
 
 }
 
-void Update(RenderWindow &window) {
-
+void Update(RenderWindow& window) {
 	//declarations
 	static Clock clock;
 	float dt = clock.restart().asSeconds();
@@ -170,16 +169,16 @@ void Update(RenderWindow &window) {
 
 	old_pos = by;
 	by = ball.getPosition().y;
-	
+
 	while (window.pollEvent(event))
 	{
-		if(event.type == Event::Closed) {
+		if (event.type == Event::Closed) {
 			window.close();
 			return;
 		}
 	}
 
-	if (by > gameHeight){
+	if (by > gameHeight) {
 		ballVelocity.x *= 1.1f;
 		ballVelocity.y *= -1.1f;
 		ball.move(Vector2(0.0f, -10.0f));
@@ -197,39 +196,10 @@ void Update(RenderWindow &window) {
 	else if (bx > gameWidth) {
 		Reset(1);
 	}
-	int direction = 0;
+
+
+	int direction = 0.0f;
 	if (Keyboard::isKeyPressed(controls[0]) && paddles[0].getPosition().y - (paddleSize.y * 0.5) > 0) {
-
-	else if (
-	//ball is inline or behind paddle
-	bx < paddleSize.x && 
-	//AND ball is below top edge of paddle
-	by > paddles[0].getPosition().y - (paddleSize.y * 0.5) &&
-	//AND ball is above bottom edge of paddle
-	by < paddles[0].getPosition().y + (paddleSize.y * 0.5)
-	) {
-
-		ballVelocity.x *= -1.1f;
-		ballVelocity.y *= 1.1f;
-		ball.move(Vector2(10.0f, 0.0f));
-	}
-
-	else if (
-		bx > gameWidth - paddleSize.x - 20 &&
-
-		by > paddles[1].getPosition().y - (paddleSize.y * 0.5) &&
-
-		by < paddles[1].getPosition().y + (paddleSize.y * 0.5)
-		) {
-
-		ballVelocity.x *= -1.1f;
-		ballVelocity.y *= 1.1f;
-		ball.move(Vector2(-10.0f, 0.0f));
-	}
-
-
-	float direction = 0.0f;
-	if (Keyboard::isKeyPressed(controls[0])) {
 
 		direction--;
 	}
@@ -248,7 +218,7 @@ void Update(RenderWindow &window) {
 			direction2++;
 		}
 	}
-	else{
+	else {
 		if (by < paddles[1].getPosition().y && paddles[1].getPosition().y - (paddleSize.y * 0.5) > 0)
 		{
 			direction2--;
@@ -259,6 +229,9 @@ void Update(RenderWindow &window) {
 			direction2++;
 		}
 	}
+
+
+	paddles[1].move(Vector2(0.f, direction2 * paddleSpeed * dt));
 
 	if (
 		//ball is inline or behind paddle
@@ -273,28 +246,29 @@ void Update(RenderWindow &window) {
 		ballVelocity.y *= 1.1f;
 		ball.move(Vector2(10.0f, 0.0f));
 		switch (direction) {
-			case -1:
-				if (old_pos < by) {
-					ballVelocity.y += 25.f;
-				}
+		case -1:
+			if (old_pos < by) {
+				ballVelocity.y += 25.f;
+			}
 
-				else if (old_pos > by) {
-					ballVelocity.y -= 25.f;
-				}
+			else if (old_pos > by) {
+				ballVelocity.y -= 25.f;
+			}
 
-				break;
-			case 0:
-				break;
-			case 1:
-				if (old_pos < by) {
-					ballVelocity.y -= 25.f;
-				}
+			break;
+		case 0:
+			break;
+		case 1:
+			if (old_pos < by) {
+				ballVelocity.y -= 25.f;
+			}
 
-				else if (old_pos > by) {
-					ballVelocity.y += 25.f;
-				}
-				break;
+			else if (old_pos > by) {
+				ballVelocity.y += 25.f;
+			}
+			break;
 		}
+
 
 		/*PSEUDO:
 		store previous ball y as float
@@ -303,11 +277,23 @@ void Update(RenderWindow &window) {
 
 		if going up, check if ball going up or down
 
-		if 
-		
+		if
+
 		*/
 	}
-	paddles[1].move(Vector2(0.f, direction * paddleSpeed * dt));
+
+	if (
+		bx > gameWidth - paddleSize.x - 20 &&
+
+		by > paddles[1].getPosition().y - (paddleSize.y * 0.5) &&
+
+		by < paddles[1].getPosition().y + (paddleSize.y * 0.5)
+		) {
+
+		ballVelocity.x *= -1.1f;
+		ballVelocity.y *= 1.1f;
+		ball.move(Vector2(-10.0f, 0.0f));
+	}
 
 	ball.move(ballVelocity * dt);
 
