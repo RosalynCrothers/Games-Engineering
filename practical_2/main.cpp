@@ -64,7 +64,6 @@ void Load() {
 	text.setFont(font);
 	text.setCharacterSize(24);
 
-	text.setPosition({ (gameWidth * .5f) - (text.getLocalBounds().width * .5f), 0 });
 
 	// Load font-face from res dir
 	font.loadFromFile("res/fonts/RobotoMono-VariableFont_wght.ttf");
@@ -76,6 +75,7 @@ void Load() {
 }
 
 void Reset(bool scorer){
+
 
 	ballVelocity = { (server ? 100.0f : -100.0f), 60.0f };
 
@@ -95,9 +95,10 @@ void Reset(bool scorer){
 
 
 
-	text.setPosition({ (gameWidth * .5f) - (text.getLocalBounds().width * .5f), 0 });
-
 	text.setString("Score: " + to_string(p1_score) + " - " + to_string(p2_score));
+
+
+	text.setPosition({ (gameWidth * .5f) - (text.getLocalBounds().width * .5f), 0 });
 
 	if (changeMode) {
 		mp = !mp;
@@ -105,6 +106,7 @@ void Reset(bool scorer){
 	}
 
 	server = !server;
+
 
 }
 
@@ -125,7 +127,7 @@ void Title(RenderWindow& window)
 	if (Keyboard::isKeyPressed(controls[4]))
 	{
 		mp = !mp;
-		sleep(seconds(0.1));
+		sleep(seconds(0.1f));
 	}
 
 	player_type.setPosition({ (gameWidth / 2.5), 0});
@@ -198,7 +200,7 @@ void Update(RenderWindow& window) {
 	}
 
 
-	int direction = 0.0f;
+	int direction = 0;
 	if (Keyboard::isKeyPressed(controls[0]) && paddles[0].getPosition().y - (paddleSize.y * 0.5) > 0) {
 
 		direction--;
@@ -247,39 +249,14 @@ void Update(RenderWindow& window) {
 		ball.move(Vector2(10.0f, 0.0f));
 		switch (direction) {
 		case -1:
-			if (old_pos < by) {
-				ballVelocity.y += 25.f;
-			}
-
-			else if (old_pos > by) {
-				ballVelocity.y -= 25.f;
-			}
-
+			ballVelocity.y -= 100.f;
 			break;
 		case 0:
 			break;
 		case 1:
-			if (old_pos < by) {
-				ballVelocity.y -= 25.f;
-			}
-
-			else if (old_pos > by) {
-				ballVelocity.y += 25.f;
-			}
+			ballVelocity.y += 100.f;
 			break;
 		}
-
-
-		/*PSEUDO:
-		store previous ball y as float
-
-		check if paddle going up or down
-
-		if going up, check if ball going up or down
-
-		if
-
-		*/
 	}
 
 	if (
@@ -293,7 +270,19 @@ void Update(RenderWindow& window) {
 		ballVelocity.x *= -1.1f;
 		ballVelocity.y *= 1.1f;
 		ball.move(Vector2(-10.0f, 0.0f));
+
+		switch (direction2) {
+		case -1:
+			ballVelocity.y -= 100.f;
+			break;
+		case 0:
+			break;
+		case 1:
+			ballVelocity.y += 100.f;
+			break;
+		}
 	}
+	
 
 	ball.move(ballVelocity * dt);
 
@@ -322,7 +311,7 @@ void Render(RenderWindow &window) {
 }
 
 int main() {
-	RenderWindow window(VideoMode({ gameWidth, gameHeight }), "Pongchamp");
+	RenderWindow window(VideoMode({ gameWidth, gameHeight }), "Pong");
 	Load();
 
 	while (window.isOpen()) {
