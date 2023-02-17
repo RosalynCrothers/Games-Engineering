@@ -4,9 +4,12 @@
 class Ship : public sf::Sprite {
 protected:
 	sf::IntRect _sprite;
+	bool type;
 
 	//default (hidden) constructor
 	Ship();
+
+	bool _exploded = false;
 
 public:
 	//Constructor that takes a sprite
@@ -19,6 +22,10 @@ public:
 	virtual void Update(const float& dt);
 
 	virtual void MoveDown();
+
+	bool is_exploded() const;
+
+	virtual void Explode();
 };
 
 //enemies

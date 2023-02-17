@@ -1,6 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include "ship.h"
+#include "bullet.h"
+#include "game.h"
 
 using namespace sf;
 using namespace std;
@@ -10,9 +12,6 @@ Texture spritesheet;
 Sprite invader;
 
 vector<Ship*> ships;
-
-int invaders_rows = 3;
-int invaders_columns = 8;
 
 void Load() {
 	if (!spritesheet.loadFromFile("res/img/invaders_sheet.png")) {

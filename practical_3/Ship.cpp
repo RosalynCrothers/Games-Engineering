@@ -35,6 +35,8 @@ Invader::Invader() : Ship() {}
 Invader::Invader(sf::IntRect ir, sf::Vector2f pos) : Ship(ir) {
 	setOrigin(Vector2f(16.f, 16.f));;
 	setPosition(pos);
+
+	type = false;
 }
 
 void Invader::Update(const float& dt) {
@@ -66,6 +68,9 @@ float Invader::speed;
 
 Player::Player() : Ship(IntRect(Vector2(160, 32), Vector2(32, 32))) {
 	setPosition({ gameWidth * .5f, gameHeight - 32.f });
+
+	type = true;
+	_exploded = false;
 }
 
 void Player::Update(const float& dt) {
@@ -81,9 +86,19 @@ void Player::Update(const float& dt) {
 		move(Vector2f(0.05f, 0.f));
 	}
 
+	static vector<Bullet*> bullets;
 	if (Keyboard::isKeyPressed(Keyboard::Space)) {
-		new Bullet(getPosition(), false);
+		bullets.push_back(new Bullet(getPosition(), false));
 	}
 
 	//cerr << "ship move" << endl;
+}
+
+void Ship::Explode() {
+	setTextureRect(IntRect(Vector2(128, 32), Vector2(32, 32)));
+	_exploded = true;
+}
+
+bool Ship::is_exploded() const {
+	return _exploded;
 }
