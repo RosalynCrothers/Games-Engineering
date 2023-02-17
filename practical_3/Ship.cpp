@@ -1,5 +1,6 @@
 #include "ship.h"
 #include "game.h"
+#include "bullet.h"
 #include <iostream>
 
 using namespace sf;
@@ -78,6 +79,10 @@ void Player::Update(const float& dt) {
 	if (Keyboard::isKeyPressed(controls[1]) && getPosition().x < (gameWidth - 32))
 	{
 		move(Vector2f(0.05f, 0.f));
+	}
+
+	if (Keyboard::isKeyPressed(Keyboard::Space)) {
+		new Bullet(getPosition(), false);
 	}
 
 	//cerr << "ship move" << endl;
