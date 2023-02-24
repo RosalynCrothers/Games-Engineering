@@ -33,6 +33,8 @@ void Load() {
 		}
 	}
 
+	Bullet::Init();
+
 	auto player = new Player();
 	ships.push_back(player);
 
@@ -49,6 +51,8 @@ void Render(RenderWindow& window) {
 	{
 		window.draw(*s);
 	}
+
+	Bullet::Render(window);
 }
 
 void Update(const float& dt) {
@@ -56,6 +60,7 @@ void Update(const float& dt) {
 	for (auto& s : ships) {
 		s->Update(dt);
 	}
+	Bullet::Update(dt);
 }
 
 int main() {

@@ -24,7 +24,6 @@ protected:
 	//false=player bullet, true=Enemy bullet
 	bool _mode;
 	static unsigned char bulletPointer;
-	static Bullet bullets[256];
 
 	//Called by the static Update()
 	void _Update(const float& dt);

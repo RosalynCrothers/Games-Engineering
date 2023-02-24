@@ -23,11 +23,39 @@ Bullet::Bullet() {};
 Bullet::Bullet(const sf::Vector2f& pos, const bool mode) {
 	setPosition(pos);
 	_mode = mode;
-};
+}
+void Bullet::Update(const float& dt)
+{
+    for (int i = 0; i < 256; i++)
+    {
+        bullets[i]->_Update(dt);
+    }
+}
+void Bullet::Render(sf::RenderWindow& window)
+{
+    for (int i=0; i<256; i++)
+    {
+        window.draw(*bullets[i]);
+    }
+}
+void Bullet::Fire(const sf::Vector2f& pos, const bool mode)
+{
+    return;
+}
+void Bullet::Init()
+{
+
+    for (int i = 0; i < 256; i++)
+    {
+        bullets[i]->setPosition(sf::Vector2f{ 20.f,20.f });
+    }
+   
+}
+
 
 
 void Bullet::_Update(const float& dt) {
-    if (getPosition().y < -32 || getPosition().y > gameHeight + 32) {
+    /*if (getPosition().y < -32 || getPosition().y > gameHeight + 32) {
         //off screen - do nothing
         return;
     }
@@ -55,15 +83,5 @@ void Bullet::_Update(const float& dt) {
             
             
         }
-    }
+    }*/
 }
-
-static void Fire(const sf::Vector2f& pos, const bool mode) { return; };
-
-
-static void Render(sf::RenderWindow& window) { return; };
-
-
-static void Update(const float& dt) { return; };
-
-static void Init() { return; };

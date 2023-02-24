@@ -16,20 +16,46 @@ add_subdirectory("lib/sfml")
 set(SFML_INCS "lib/sfml/include")
 link_directories("${CMAKE_BINARY_DIR}/lib/sfml/lib")
 
+#### auto ddls ####
+function (copy_sfml_dll MyTarget )
+add_custom_command(TARGET ${MyTarget} POST_BUILD        # Adds a post-build event to MyTest
+COMMAND ${CMAKE_COMMAND} -E copy_directory  # which executes "cmake - E copy_if_different..."
+"${CMAKE_BINARY_DIR}/lib/sfml/bin/$<CONFIGURATION>"      # <--this is in-file
+$<TARGET_FILE_DIR:${MyTarget}>)                 # <--this is out-file path
+endfunction()
+
+#### ADD RES #####
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/res)
+
+file(COPY res DESTINATION ${CMAKE_BINARY_DIR})
+
+
+
+
 #### Practical 1 ####
 file(GLOB_RECURSE SOURCES practical_1/*.cpp practical_1/*.h)
 add_executable(PRACTICAL_1 ${SOURCES})
 target_include_directories(PRACTICAL_1 PRIVATE ${SFML_INCS})
 target_link_libraries(PRACTICAL_1 sfml-graphics)
+copy_sfml_dll(PRACTICAL_1)
 
 #### Pong ####
 file(GLOB_RECURSE SOURCES practical_2/*.cpp practical_2/*.h)
 add_executable(PRACTICAL_2 ${SOURCES})
 target_include_directories(PRACTICAL_2 PRIVATE ${SFML_INCS})
 target_link_libraries(PRACTICAL_2 sfml-graphics)
+copy_sfml_dll(PRACTICAL_2)
 
 #### Space Invaders ####
 file(GLOB_RECURSE SOURCES practical_3/*.cpp practical_3/*.h)
 add_executable(PRACTICAL_3 ${SOURCES})
 target_include_directories(PRACTICAL_3 PRIVATE ${SFML_INCS})
 target_link_libraries(PRACTICAL_3 sfml-graphics)
+copy_sfml_dll(PRACTICAL_3)
+
+#### tile engine ####
+file(GLOB_RECURSE SOURCES practical_4/*.cpp practical_4/*.h)
+add_executable(PRACTICAL_4 ${SOURCES})
+target_include_directories(PRACTICAL_4 PRIVATE ${SFML_INCS})
+target_link_libraries(PRACTICAL_4 sfml-graphics)
+copy_sfml_dll(PRACTICAL_4)
