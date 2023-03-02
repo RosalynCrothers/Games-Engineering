@@ -83,9 +83,6 @@ int main() {
 				window.close();
 			}
 		}
-		//window.clear();
-		//window.draw(shape);
-		//window.display();
 		window.clear();
 		Update(dt);
 		Render(window);
